@@ -1,24 +1,28 @@
-// Create this at: kibanda-fashion-store/api/index.js
-const express = require('express');
-const app = express();
-
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.json({ 
-    message: '🎉 Kibanda API is finally working!',
-    status: 'success',
-    timestamp: new Date().toISOString(),
-    version: '1.0'
+// api/index.js
+module.exports = (req, res) => {
+  const { path } = req;
+  
+  if (path === '/api' || path === '/') {
+    return res.status(200).json({ 
+      message: '🎉 Kibanda API is finally working!',
+      status: 'success',
+      timestamp: new Date().toISOString(),
+      path: path
+    });
+  }
+  
+  if (path === '/api/health' || path === '/health') {
+    return res.status(200).json({ 
+      status: 'healthy', 
+      service: 'kibanda-api',
+      timestamp: new Date().toISOString()
+    });
+  }
+  
+  // Handle 404
+  res.status(404).json({
+    error: 'Endpoint not found',
+    path: path,
+    message: 'Available endpoints: /api, /health'
   });
-});
-
-app.get('/health', (req, res) => {
-  res.json({ status: 'healthy', service: 'kibanda-api' });
-});
-
-app.get('/products', (req, res) => {
-  res.json({ products: ['Dress', 'Shirt', 'Pants'] });
-});
-
-module.exports = app;
+};
