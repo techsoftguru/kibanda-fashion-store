@@ -1,4 +1,19 @@
 # Kibanda Fashion Website
 
-A modern and responsive fashion e-commerce website showcasing trending clothing, sneakers, and accessories. Built with clean HTML, CSS, and JavaScript, the site features a sleek UI, organized product sections, and smooth navigation.
+## Project Overview
+Kibanda Fashion is a modern, responsive e-commerce website designed to showcase and promote trendy clothing, sneakers, and accessories. It provides a clean user interface, simple navigation, and well-organized product sections suitable for a boutique or online fashion store.
+
+## Features
+- Fully responsive frontend  
+- Modern layout with product displays  
+- Clean structure for easy customization  
+- Ready for backend integration
+
+## Tech Stack
+- HTML  
+- CSS  
+- JavaScript  
+
+## Usage
+Open `index.html` in a browser or use a local development server.
 
