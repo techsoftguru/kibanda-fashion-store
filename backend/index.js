@@ -1,55 +1,47 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Basic root route - FIXES THE 404
+// Root route - THIS MUST EXIST
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Kibanda Website Backend is running!',
+    message: 'Kibanda Backend API is working! 🚀',
     status: 'success',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV
   });
 });
 
 // Health check route
 app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    service: 'Kibanda Backend',
+  res.json({ 
+    status: 'OK',
+    service: 'Kibanda Fashion Store API',
     timestamp: new Date().toISOString()
   });
 });
 
-// Add your existing routes here
-// app.use('/api/users', userRoutes);
-// app.use('/api/products', productRoutes);
+// Test other routes
+app.get('/api', (req, res) => {
+  res.json({ message: 'API root endpoint' });
+});
 
-// Handle 404 for undefined routes
-app.use('*', (req, res) => {
+app.get('/api/products', (req, res) => {
+  res.json({ products: ['Product 1', 'Product 2', 'Product 3'] });
+});
+
+// 404 handler for API routes
+app.use((req, res) => {
   res.status(404).json({
-    error: 'Route not found',
-    path: req.originalUrl,
-    method: req.method
+    error: 'Endpoint not found',
+    path: req.path,
+    method: req.method,
+    message: 'Check your URL or API documentation'
   });
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    error: 'Internal Server Error',
-    message: process.env.NODE_ENV === 'production' ? 'Something went wrong!' : err.message
-  });
-});
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📍 Local: http://localhost:${PORT}`);
-  console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
-
+// Export the app for Vercel
 module.exports = app;
